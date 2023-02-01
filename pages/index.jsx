@@ -33,10 +33,16 @@ export default function Home() {
     <>
       <Head>
         <title>Moogle Search</title>
-        <meta name="description" content="A FFXIV search engine to look through all languages simultaneously." />
+        <meta
+          name="description"
+          content="A FFXIV search engine to look through all languages simultaneously."
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/icon.ico" />
-        <meta property="og:image" content="https://moogle-search.vercel.app/icon.png" />
+        <meta
+          property="og:image"
+          content="https://moogle-search.vercel.app/icon.png"
+        />
         <meta name="theme-color" content="#447ae1" />
       </Head>
       <main className="w-full">
@@ -61,11 +67,32 @@ export default function Home() {
             />
             <div className="mt-4 sm:mt-0 sm:ml-3">
               <button
-                className="px-5 py-3 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 disabled:opacity-50"
+                className="flex px-5 py-3 justify-center font-bold text-white bg-blue-500 rounded hover:bg-blue-700 disabled:opacity-50 w-24"
                 type="submit"
                 disabled={loading}
               >
-                Search
+                {loading ? (
+                  <span className="animate-spin h-6 w-6">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 512 512"
+                    >
+                      <circle cx="256" cy="96" r="64" fill="currentColor" />
+                      <circle cx="96" cy="256" r="48" fill="currentColor" />
+                      <circle cx="368" cy="144" r="8" fill="currentColor" />
+                      <path
+                        d="M180.1 107.6c-19.9-20.1-52.2-20.1-72.1 0-19.9 20.1-19.9 52.7 0 72.8 19.9 20.1 52.2 20.1 72.1 0 19.9-20.1 19.9-52.7 0-72.8z"
+                        fill="currentColor"
+                      />
+                      <circle cx="416" cy="256" r="16" fill="currentColor" />
+                      <circle cx="369" cy="369" r="24" fill="currentColor" />
+                      <circle cx="256" cy="416" r="32" fill="currentColor" />
+                      <circle cx="144" cy="368" r="40" fill="currentColor" />
+                    </svg>
+                  </span>
+                ) : (
+                  "Search"
+                )}
               </button>
             </div>
           </div>
@@ -95,17 +122,8 @@ export default function Home() {
             </div>
           </RadioGroup>
         </form>
-
-        {loading && (
-          // loading spinner
-          <div className="mt-10 container mx-auto text-center font-semibold text-gray-500 flex justify-center">
-            Loading... <span className="animate-spin ml-2">
-              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><circle cx="256" cy="96" r="64" fill="currentColor"/><circle cx="96" cy="256" r="48" fill="currentColor"/><circle cx="368" cy="144" r="8" fill="currentColor"/><path d="M180.1 107.6c-19.9-20.1-52.2-20.1-72.1 0-19.9 20.1-19.9 52.7 0 72.8 19.9 20.1 52.2 20.1 72.1 0 19.9-20.1 19.9-52.7 0-72.8z" fill="currentColor"/><circle cx="416" cy="256" r="16" fill="currentColor"/><circle cx="369" cy="369" r="24" fill="currentColor"/><circle cx="256" cy="416" r="32" fill="currentColor"/><circle cx="144" cy="368" r="40" fill="currentColor"/></svg>
-            </span>
-          </div>
-        ) }
-
-        {(searchResults) ? (
+        
+        {searchResults ? (
           <div className="mt-10 container mx-auto">
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 mx-auto p-4">
               {
@@ -129,9 +147,6 @@ export default function Home() {
             No results - did you check your spelling?
           </div>
         )}
-
-        
-
       </main>
     </>
   );
