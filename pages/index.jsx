@@ -13,6 +13,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
 
   const getResults = async () => {
+    setLoading(true);
     try {
       const { data } = await axios.get("api/search/", {
         params: { keyword, languages: "en,de,fr,ja", page: 1 },
@@ -58,8 +59,9 @@ export default function Home() {
             />
             <div className="mt-4 sm:mt-0 sm:ml-3">
               <button
-                className="px-5 py-3 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
+                className="px-5 py-3 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 disabled:opacity-50"
                 type="submit"
+                disabled={loading}
               >
                 Search
               </button>
@@ -92,7 +94,16 @@ export default function Home() {
           </RadioGroup>
         </form>
 
-        {searchResults ? (
+        {loading && (
+          // loading spinner
+          <div className="mt-10 container mx-auto text-center font-semibold text-gray-500 flex justify-center">
+            Loading... <span className="animate-spin ml-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><circle cx="256" cy="96" r="64" fill="currentColor"/><circle cx="96" cy="256" r="48" fill="currentColor"/><circle cx="368" cy="144" r="8" fill="currentColor"/><path d="M180.1 107.6c-19.9-20.1-52.2-20.1-72.1 0-19.9 20.1-19.9 52.7 0 72.8 19.9 20.1 52.2 20.1 72.1 0 19.9-20.1 19.9-52.7 0-72.8z" fill="currentColor"/><circle cx="416" cy="256" r="16" fill="currentColor"/><circle cx="369" cy="369" r="24" fill="currentColor"/><circle cx="256" cy="416" r="32" fill="currentColor"/><circle cx="144" cy="368" r="40" fill="currentColor"/></svg>
+            </span>
+          </div>
+        ) }
+
+        {(searchResults) ? (
           <div className="mt-10 container mx-auto">
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 mx-auto p-4">
               {
@@ -117,7 +128,7 @@ export default function Home() {
           </div>
         )}
 
-        {loading && "Loading..."}
+        
 
       </main>
     </>
