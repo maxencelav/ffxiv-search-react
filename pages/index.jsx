@@ -33,9 +33,11 @@ export default function Home() {
     <>
       <Head>
         <title>Moogle Search</title>
-        <meta name="description" content="aou" />
+        <meta name="description" content="A FFXIV search engine to look through all languages simultaneously." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/icon.ico" />
+        <meta property="og:image" content="https://moogle-search.vercel.app/icon.png" />
+        <meta name="theme-color" content="#447ae1" />
       </Head>
       <main className="w-full">
         <form
