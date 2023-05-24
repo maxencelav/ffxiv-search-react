@@ -1,7 +1,8 @@
 import Image from "next/image";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { clearPreviewData } from "next/dist/server/api-utils";
+import { toast } from 'react-hot-toast';
+
 
 export function ItemCard({ id, item, currentLanguage, languageList }) {
   /* Gather info based on the item ID using https://xivapi.com/item/id */
@@ -15,23 +16,41 @@ export function ItemCard({ id, item, currentLanguage, languageList }) {
     // declare the data fetching function
     const getInfo = async () => {
       const { data } = await axios.get("https://xivapi.com/item/" + id);
-      console.log(data);
       setadditionalInfo(data);
     };
 
     // call the function
     getInfo().catch((err) => {
-      console.log(err);
+      console.error(err);
     });
   }, [id]);
 
+
+  function ClickToCopy({className, text}) {
+    return (<span className={className} onClick={() => {
+      navigator.clipboard.writeText(text)
+      // toast
+      toast.success(`Copied ${text} to your clipboard.`, {
+        position: "bottom-left",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }}>
+      {text}
+    </span>)
+  }
+
+
   function languageListing(language) {
     return (
-      <p className="text-zinc-700 dark:text-zinc-300 text-sm mb-1">
-        <span className="bg-zinc-100 text-zinc-800 text-xs font-medium inline-block text-center w-5 mr-2 py-0.5 rounded dark:bg-zinc-700 dark:text-zinc-300">
+      <p className="text-zinc-700 dark:text-zinc-300 text-sm mb-1 select-none">
+        <span className="bg-zinc-100 text-zinc-800 text-xs font-medium inline-block text-center w-5 mr-2 py-0.5 rounded dark:bg-zinc-700 dark:text-zinc-300 select-none">
           {language.toUpperCase().charAt(0)}
         </span>
-        {item[language]}
+        <ClickToCopy className="hover:underline cursor-pointer" text={item[language]} />        
       </p>
     );
   }
