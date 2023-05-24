@@ -27,8 +27,8 @@ export function ItemCard({ id, item, currentLanguage, languageList }) {
 
   function languageListing(language) {
     return (
-      <p className="text-gray-700 dark:text-gray-300 text-sm mb-1">
-        <span className="bg-gray-100 text-gray-800 text-xs font-medium inline-block text-center w-5 mr-2 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">
+      <p className="text-zinc-700 dark:text-zinc-300 text-sm mb-1">
+        <span className="bg-zinc-100 text-zinc-800 text-xs font-medium inline-block text-center w-5 mr-2 py-0.5 rounded dark:bg-zinc-700 dark:text-zinc-300">
           {language.toUpperCase().charAt(0)}
         </span>
         {item[language]}
@@ -40,7 +40,7 @@ export function ItemCard({ id, item, currentLanguage, languageList }) {
     return (
       <a
         href={url}
-        className="grow text-center text-gray-700 dark:text-gray-400 text-sm hover:bg-gray-200 dark:hover:bg-gray-700 px-2 py-1"
+        className="grow text-center text-zinc-700 dark:text-zinc-400 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 px-2 py-1"
         target="_blank"
         rel="noreferrer"
       >
@@ -50,7 +50,7 @@ export function ItemCard({ id, item, currentLanguage, languageList }) {
   }
 
   return (
-    <div className="w-full rounded overflow-hidden shadow-lg bg-white dark:bg-gray-900/50 dark:text-gray-200 flex flex-col justify-between">
+    <div className="w-full rounded overflow-hidden drop-shadow-md bg-orange-100 dark:bg-zinc-900/50 dark:text-zinc-200 flex flex-col justify-between border border-stone-500/30">
       <div className="flex mx-4 mt-4 mb-2 grow">
         {additionalInfo ? (
           <Image
@@ -58,10 +58,10 @@ export function ItemCard({ id, item, currentLanguage, languageList }) {
             alt={item[currentLanguage]}
             width={50}
             height={50}
-            className="rounded w-10 h-10 bg-gray-600 flex-shrink-0"
+            className="rounded w-10 h-10 bg-zinc-600 flex-shrink-0"
           />
         ) : (
-          <div className="rounded w-10 h-10 bg-gray-600 animate-pulse flex-shrink-0"></div>
+          <div className="rounded w-10 h-10 bg-zinc-600 animate-pulse flex-shrink-0"></div>
         )}
         <div className="font-bold text-xl ml-2 mb-2 leading-none">
           {item[currentLanguage]}
@@ -78,7 +78,7 @@ export function ItemCard({ id, item, currentLanguage, languageList }) {
         })}
       </div>
       {/* footer with two small buttons */}
-      <div className="border-t border-gray-200 dark:border-gray-700 flex justify-items-stretch mt-2 flex-none">
+      <div className="border-t border-zinc-200 dark:border-zinc-700 flex justify-items-stretch mt-2 flex-none">
         {footerButton(
           "https://garlandtools.org/db/#item/" + id,
           "Garland Tools"
