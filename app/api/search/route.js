@@ -1,25 +1,20 @@
 import { NextResponse } from 'next/server';
 
+export const dynamic = 'force-dynamic';
 
 
 
 export async function GET(request) {
-  console.log('search route');
   // return new NextResponse.json("Hello World");
 
   try {
     // Get the search query
-    const { searchParams } = new URL(request.url);
-    const query = searchParams.get('query');
-    const languages = searchParams.get('languages');
-    const page = searchParams.get('page');
+    const query = request.nextUrl.searchParams.get('query');
+    const languages = request.nextUrl.searchParams.get('languages');
+    const page = request.nextUrl.searchParams.get('page');
 
-    console.log(query);
-    console.log(languages);
-    console.log(page);
-
-  // get the items located at /data/items.json
-  const items = await import('.//../../../data/items.json')
+    // get the items located at /data/items.json
+    const items = await import('.//../../../data/items.json')
 
     // split the languages string into an array
     const languagesArray = languages.split(',')
@@ -39,9 +34,9 @@ export async function GET(request) {
     const pageItems = Object.fromEntries(Object.entries(filteredItems).slice((page - 1) * 20, page * 20))
 
     // Return the filtered items as an array
-    return NextResponse.json(pageItems )
+    return NextResponse.json(pageItems)
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: error.message })
+    console.log('Error loading search results in!')
+    return NextResponse(error)
   }
 }
