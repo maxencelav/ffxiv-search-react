@@ -7,6 +7,6 @@
 }
 
 html {
-  @apply m-0 p-0 bg-orange-50 dark:bg-zinc-900 dark:text-white min-h-screen;
+  @apply m-0 p-0 bg-orange-50 dark:bg-zinc-900 dark:text-white min-h-screen relative;
   scrollbar-gutter: stable;
 }
