@@ -37,6 +37,6 @@ export async function GET(request) {
     return NextResponse.json(pageItems)
   } catch (error) {
     console.log('Error loading search results in!')
-    return NextResponse(error)
+    return new NextResponse(error)
   }
 }

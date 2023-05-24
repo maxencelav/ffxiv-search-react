@@ -69,7 +69,7 @@ export function ItemCard({ id, item, currentLanguage, languageList }) {
   }
 
   return (
-    <div className="w-full rounded overflow-hidden drop-shadow-md bg-orange-100 dark:bg-zinc-900/50 dark:text-zinc-200 flex flex-col justify-between border border-stone-500/30">
+    <div className="w-full rounded overflow-hidden drop-shadow-md bg-orange-100 dark:bg-zinc-900/50 dark:text-zinc-200 flex flex-col justify-between border border-stone-500/30 z-20">
       <div className="flex mx-4 mt-4 mb-2 grow">
         {additionalInfo ? (
           <Image

@@ -1,10 +1,13 @@
 "use client";
 
 import React, { useEffect, useState, useCallback } from 'react';
+import Image from 'next/image';
 import axios from "axios";
-
 import { RadioGroup } from "@headlessui/react";
 import { ItemCard } from '@/components/ItemCard';
+
+import errorMoogle from '../public/ko.png'
+
 
 export default function Home() {
   "use client";
@@ -67,6 +70,7 @@ export default function Home() {
       return (
         <div className="mt-10 container mx-auto text-center font-semibold text-zinc-500 w-full">
           No results - did you check your spelling?
+          <Image src={errorMoogle} alt='' className='dark:brightness-75 mx-auto mt-10 max-w-full' height={500} width={500} />
         </div>
       );
     } else if (typeof results !== 'object') {
