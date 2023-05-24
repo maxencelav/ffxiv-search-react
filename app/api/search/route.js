@@ -7,6 +7,8 @@ export async function GET(request) {
   console.log('search route');
   // return new NextResponse.json("Hello World");
 
+  return NextResponse.json({ request });
+
   try {
     // Get the search query
     const { searchParams } = new URL(request.url);
