@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 
+export const dynamic = 'force-dynamic';
 
 
 
@@ -35,7 +36,7 @@ export async function GET(request) {
     // Return the filtered items as an array
     return NextResponse.json(pageItems)
   } catch (error) {
-    console.log('Error loading search results in route.js!')
+    console.log('Error loading search results in!')
     return NextResponse(error)
   }
 }
