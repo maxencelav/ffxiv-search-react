@@ -38,7 +38,7 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         {children}
         <Toaster />
-        <Image src={moogleImg} alt='' className='-bottom-10 -right-10 fixed z-0 grayscale max-h-full object-contain object-right mix-blend-luminosity opacity-10 dark:opacity-5 z-0 dark:invert' height={500} width={500} />
+        <Image src={moogleImg} alt='' className='-bottom-10 -right-10 fixed z-0 grayscale max-h-full object-contain object-right mix-blend-luminosity opacity-10 dark:opacity-5 dark:invert' height={500} width={500} />
         </body>
     </html>
   )
