@@ -141,7 +141,6 @@ export default function Home() {
             value={searchParam}
             onChange={(e) => {
               setSearchParam(e.target.value)
-              setHasUserTyped(true);
             }}
           />
         </div>
