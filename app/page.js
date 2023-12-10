@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useCallback } from 'react';
+import { useLocalStorage } from "@uidotdev/usehooks";
 import Image from 'next/image';
 import axios from "axios";
 import { RadioGroup } from "@headlessui/react";
@@ -10,10 +11,12 @@ import errorMoogle from '../public/ko.png'
 
 
 export default function Home() {
-  "use client";
+  const languageList = ["en", "de", "fr", "ja"];
 
-  const [currentLanguage, setCurrentLanguage] = useState("en");
-  const [languageList, setLanguageList] = useState(["en", "de", "fr", "ja"]);
+  // store the current language in local storage
+  // default value is determined by the browser language but restricted to the language list
+
+  const [currentLanguage, setCurrentLanguage] = useLocalStorage("language", languageList.includes(navigator.language) ? navigator.language.slice(0,2) : "en");
   const [searchResults, setSearchResults] = useState(null);
   const [loading, setLoading] = useState(false);
   const [searchParam, setSearchParam] = useState('');

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.14",
+    "@uidotdev/usehooks": "^2.4.1",
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
     "cross-env": "^7.0.3",
