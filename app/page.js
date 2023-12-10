@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useCallback } from 'react';
-import { useLocalStorage } from "@uidotdev/usehooks";
+import { useLocalStorage, useDebounce } from "@uidotdev/usehooks";
 import Image from 'next/image';
 import axios from "axios";
 import { RadioGroup } from "@headlessui/react";
@@ -11,55 +11,73 @@ import errorMoogle from '../public/ko.png'
 
 
 export default function Home() {
+  'use client'
   const languageList = ["en", "de", "fr", "ja"];
 
   // store the current language in local storage
   // default value is determined by the browser language but restricted to the language list
 
-  const [currentLanguage, setCurrentLanguage] = useLocalStorage("language", languageList.includes(navigator.language) ? navigator.language.slice(0,2) : "en");
+  const [currentLanguage, setCurrentLanguage] = useLocalStorage("language", languageList.includes(navigator.language) ? navigator.language.slice(0, 2) : "en");
   const [searchResults, setSearchResults] = useState(null);
   const [loading, setLoading] = useState(false);
   const [searchParam, setSearchParam] = useState('');
-
-
-
-  const handleInputChange = async (e) => {
-    // Set the search param state
-    const newSearchParam = e.target.value;
-    setSearchParam(newSearchParam);
-
-    // Update the URL
-    const urlParams = new URLSearchParams(window.location.search);
-    urlParams.set('search', newSearchParam);
-    window.history.replaceState({}, '', `${window.location.pathname}?${urlParams}`);
-
-    // Search for the new value
-    getResults(e.target.value);
-  };
-
-
-  const getResults = async (searchParam) => {
-    setLoading(true);
-
-    try {
-      const { data } = await axios.get("api/search", {
-        params: { query: searchParam, languages: "en,de,fr,ja", page: 1 },
-      });
-
-      setSearchResults(data);
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-    }
-  };
+  const debouncedSearchParam = useDebounce(searchParam, 300);
 
   // load the search param from the URL on page load
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const searchValue = urlParams.get('search');
-    setSearchParam(searchValue || '');
-    getResults(searchValue);
+    setSearchParam(searchValue ? searchValue : '');
   }, []);
+
+  // when the searchParam is debounced, get the results
+  useEffect(() => {
+    // init url params
+    const urlParams = new URLSearchParams(window.location.search);
+
+    if (debouncedSearchParam === '') {
+      // Clear the search results
+      setSearchResults(null);
+      setLoading(false);
+
+      // Update the URL 
+      urlParams.delete('search');
+      if (urlParams.toString()) {
+        window.history.replaceState({}, '', `${window.location.pathname}?${urlParams}`);
+      } else {
+        window.history.replaceState({}, '', window.location.pathname);
+      }
+
+      return;
+    }
+
+    // Update the URL if the search param is not empty and the user has typed
+    urlParams.set('search', debouncedSearchParam);
+    window.history.replaceState({}, '', `${window.location.pathname}?${urlParams}`);
+
+    // Search for the new value
+    setLoading(true);
+
+    // Define async function (useEffect cannot be async)
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get("api/search", {
+          params: { query: debouncedSearchParam, languages: "en,de,fr,ja", page: 1 },
+        });
+
+        setSearchResults(data);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+      }
+    };
+
+    // Call async function
+    fetchData();
+  }, [debouncedSearchParam]);
+
+
+
 
 
   function SearchResults({ results }) {
@@ -120,8 +138,11 @@ export default function Home() {
             type="text"
             className="w-full px-5 py-3 text-zinc-700 bg-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 focus:border-transparent"
             placeholder="Search..."
-            defaultValue={searchParam}
-            onChange={handleInputChange}
+            value={searchParam}
+            onChange={(e) => {
+              setSearchParam(e.target.value)
+              setHasUserTyped(true);
+            }}
           />
         </div>
 
