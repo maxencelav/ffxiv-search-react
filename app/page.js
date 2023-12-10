@@ -11,13 +11,15 @@ import errorMoogle from '../public/ko.png'
 
 
 export default function Home() {
-  'use client'
+  'use client';
+
   const languageList = ["en", "de", "fr", "ja"];
 
   // store the current language in local storage
   // default value is determined by the browser language but restricted to the language list
 
-  const [currentLanguage, setCurrentLanguage] = useLocalStorage("language", languageList.includes(navigator.language) ? navigator.language.slice(0, 2) : "en");
+  const defaultLanguage = typeof window !== 'undefined' && languageList.includes(navigator.language) ? navigator.language.slice(0, 2) : "en";
+  const [currentLanguage, setCurrentLanguage] = useLocalStorage("language", defaultLanguage);
   const [searchResults, setSearchResults] = useState(null);
   const [loading, setLoading] = useState(false);
   const [searchParam, setSearchParam] = useState('');
