@@ -77,55 +77,11 @@ export default function Home() {
   }, [debouncedSearchParam]);
 
 
+  // debug use effect to find out why the search results are flashing on every keypress
+  useEffect(() => {
+    console.log('search results changed')
+  }, [searchResults])
 
-
-
-  function SearchResults({ results }) {
-    if (loading) {
-      return (
-        <div className="mt-10 container mx-auto text-center font-semibold text-zinc-500 w-full">
-          Loading...
-        </div>
-      );
-    } else if (!results || results == null || Object.keys(results).length === 0) {
-      return (
-        <div className="mt-10 container mx-auto text-center font-semibold text-zinc-500 w-full">
-          No results - did you check your spelling?
-          <Image src={errorMoogle} alt='' className='dark:brightness-75 mx-auto mt-10 max-w-full' height={500} width={500} />
-        </div>
-      );
-    } else if (typeof results !== 'object') {
-      // if results is not a JSON object, then it's an error
-      <div className="mt-10 container mx-auto text-center font-semibold text-zinc-500 w-full">
-        Error loading results: {results.error}
-      </div>
-    }
-    else if (typeof results === 'object' && Object.keys(results).length > 0) {
-      return (<div className="mt-10 container mx-auto">
-        {/* center text with number of results */}
-        <div className="text-center font-semibold text-zinc-500">
-          {Object.keys(results).length} results
-        </div>
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 mx-auto p-4">
-          {
-            Object.entries(searchResults).map(([id, item]) => (
-              <ItemCard
-                key={id}
-                id={id}
-                item={item}
-                currentLanguage={currentLanguage}
-                languageList={languageList}
-              />
-            ))
-          }
-        </div>
-      </div>);
-    } else {
-      <div className="mt-10 container mx-auto text-center font-semibold text-zinc-500">
-        No results - did you check your spelling?
-      </div>
-    }
-  }
 
   return (
     <main className="w-full">
@@ -171,7 +127,54 @@ export default function Home() {
           </div>
         </RadioGroup>
       </form>
-      <SearchResults results={searchResults} />
+      <SearchResults results={searchResults} loading={loading} />
     </main>
   )
 }
+
+const SearchResults = React.memo(function SearchResults({ results, loading, languageList, currentLanguage }) {
+  if (loading) {
+    return (
+      <div className="mt-10 container mx-auto text-center font-semibold text-zinc-500 w-full">
+        Loading...
+      </div>
+    );
+  } else if (!results || results == null || Object.keys(results).length === 0) {
+    return (
+      <div className="mt-10 container mx-auto text-center font-semibold text-zinc-500 w-full">
+        No results - did you check your spelling?
+        <Image src={errorMoogle} alt='' className='dark:brightness-75 mx-auto mt-10 max-w-full' height={500} width={500} />
+      </div>
+    );
+  } else if (typeof results !== 'object') {
+    // if results is not a JSON object, then it's an error
+    <div className="mt-10 container mx-auto text-center font-semibold text-zinc-500 w-full">
+      Error loading results: {results.error}
+    </div>
+  }
+  else if (typeof results === 'object' && Object.keys(results).length > 0) {
+    return (<div className="mt-10 container mx-auto">
+      {/* center text with number of results */}
+      <div className="text-center font-semibold text-zinc-500">
+        {Object.keys(results).length} results
+      </div>
+      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 mx-auto p-4">
+        {
+          Object.entries(results).map(([id, item]) => (
+            <ItemCard
+              key={id}
+              id={id}
+              item={item}
+              currentLanguage={currentLanguage}
+              languageList={languageList}
+            />
+          ))
+        }
+      </div>
+    </div>);
+  } else {
+    <div className="mt-10 container mx-auto text-center font-semibold text-zinc-500">
+      No results - did you check your spelling?
+    </div>
+  }
+});
