@@ -125,7 +125,7 @@ export default function Home() {
           </div>
         </RadioGroup>
       </form>
-      <SearchResults results={searchResults} loading={loading} />
+      <SearchResults results={searchResults} loading={loading} languageList={languageList} currentLanguage={currentLanguage} />
     </main>
   )
 }
